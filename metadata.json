@@ -1,0 +1,8 @@
+{
+  "name": "星遇诗客 - Ink Poetry",
+  "description": "An interactive poetry experience with constellation navigation",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
