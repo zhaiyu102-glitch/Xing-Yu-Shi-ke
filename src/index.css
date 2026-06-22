@@ -7,3 +7,12 @@
   --font-calligraphy: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
+/* Hide scrollbar completely for custom-scrollbar components (like the cover details) */
+.custom-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.custom-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+

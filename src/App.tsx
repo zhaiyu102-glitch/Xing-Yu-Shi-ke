@@ -46,6 +46,8 @@ import liqingzhaoLandscape from "./assets/images/liqingzhao_new_scroll_178090733
 // @ts-ignore
 import xinqijiLandscape from "./assets/images/xinqiji_landscape_1780538317062.png";
 // @ts-ignore
+import a2BoardImg from "./assets/images/a2_exhibition_board_1782057432627.jpg";
+// @ts-ignore
 import liqingzhaoPortrait from "./assets/images/liqingzhao_portrait_new_1781138740006.png";
 // @ts-ignore
 import libaiPortrait from "./assets/images/libai_portrait_1781137539010.png";
@@ -703,6 +705,7 @@ export default function App() {
   const [cameraActive, setCameraActive] = useState(false);
   const [hasWebcamError, setHasWebcamError] = useState(false);
   const [showInfo, setShowInfo] = useState(true);
+  const [showExhibitionBoard, setShowExhibitionBoard] = useState(false);
   const [useMouseFallback, setUseMouseFallback] = useState(false);
   const [isCameraPermissionGranted, setIsCameraPermissionGranted] = useState(false);
   const [dialogueLocked, setDialogueLocked] = useState(false);
@@ -2990,7 +2993,172 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {/* Detailed A2 Exhibition Board Modal */}
+      <AnimatePresence>
+        {showExhibitionBoard && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 overflow-hidden pointer-events-auto"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 25 }}
+              className="relative w-full max-w-5xl h-[90vh] md:h-[85vh] bg-[#0c0910] border-2 border-amber-500/30 rounded-2xl md:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col md:flex-row"
+            >
+              {/* Corner blueprints design accents */}
+              <div className="absolute top-4 left-4 w-6 h-6 border-t border-l border-amber-500/20 pointer-events-none" />
+              <div className="absolute top-4 right-4 w-6 h-6 border-t border-r border-amber-500/20 pointer-events-none" />
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-b border-l border-amber-500/20 pointer-events-none" />
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-b border-r border-amber-500/20 pointer-events-none" />
+
+              {/* Close Button */}
+              <button 
+                onClick={() => setShowExhibitionBoard(false)}
+                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-zinc-900/80 border border-amber-500/20 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                title="关闭 (Close)"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Left Section: Poster Viewer */}
+              <div className="w-full md:w-[50%] h-[40vh] md:h-full bg-zinc-950/60 flex flex-col items-center justify-center p-6 border-b md:border-b-0 md:border-r border-zinc-900 overflow-hidden relative">
+                {/* Board grid and measure indicators */}
+                <div className="absolute top-2 left-6 text-[8px] font-mono text-zinc-600 uppercase select-none">
+                  ENGINEERING PLOT PREVIEW · STANDARD ISO A2 VERTICAL PANEL
+                </div>
+                
+                {/* Dimensions indicator tape */}
+                <div className="absolute left-1 top-1/2 -translate-y-1/2 -rotate-90 text-[8px] font-mono text-amber-500/40 select-none">
+                  📐 594 mm (HEIGHT) ─────────────────────────
+                </div>
+                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 text-[8px] font-mono text-amber-500/40 select-none">
+                  📐 420 mm (WIDTH) ─────────────
+                </div>
+
+                {/* Poster Display Container */}
+                <div className="relative group max-h-[92%] max-w-[92%] flex items-center justify-center shadow-2xl transition-transform duration-300 md:hover:scale-[1.02]">
+                  <img 
+                    src={a2BoardImg} 
+                    alt="水墨星尘 A2 展板图纸" 
+                    referrerPolicy="no-referrer"
+                    className="object-contain max-h-full max-w-full rounded-md border border-amber-500/20 bg-black/40"
+                  />
+                  
+                  {/* Watermark overlay instructions */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-3 text-center pointer-events-none rounded-md">
+                    <span className="text-xs text-amber-200 font-serif tracking-widest bg-[#0a0810]/95 px-3.5 py-2 rounded-lg border border-amber-500/30 shadow-lg">
+                      💡 点击右侧 “导出高清大图” 保存本地喷绘
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Section: Technical and Concept Details */}
+              <div className="w-full md:w-[50%] h-[50vh] md:h-full overflow-y-auto p-6 md:p-8 flex flex-col select-none">
+                <div className="flex flex-col gap-1 pb-4 border-b border-amber-500/10">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-amber-500 font-bold font-sans">
+                      A2 Exhibition Presentation Board
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-serif text-amber-100 font-bold tracking-widest leading-normal">
+                    《水墨星尘》媒体艺术装置设计展板
+                  </h3>
+                  <p className="text-xs text-zinc-500 font-serif italic mt-0.5">
+                    Concept Architecture, Multimedia Audio-Sensing & Body Interaction Blueprint
+                  </p>
+                </div>
+
+                {/* Bilingual Spec Information */}
+                <div className="flex flex-col gap-4 py-5 overflow-y-auto grow">
+                  {/* Spec 1: Exhibition Intro */}
+                  <div className="flex flex-col gap-1.5">
+                    <h5 className="text-[11px] font-sans font-bold text-amber-400 tracking-wider uppercase border-l-2 border-amber-500 pl-2">
+                      ✦ 项目主旨 Theme Idea
+                    </h5>
+                    <p className="text-xs leading-relaxed text-[#eee9da] font-serif text-justify pl-2">
+                      <strong>【水墨星尘】</strong>是将东方泼墨山水美学与现代数理星图、高复真物理建模合成器相结合的沉浸式新媒体人机交互装置。作品借用天体运行星轨与古代星座（二十八宿），实现跨越千年的时空对话与乐理雅奏。
+                    </p>
+                    <p className="text-[10px] leading-relaxed text-zinc-500 font-sans text-justify pl-2">
+                      "Ink-wash Star Dust" bridges cultural heritage and modern spatial computing, merging flowing brushstroke ink fluids, real-time wave physical music synthesizer, and uncontact webcam gesture tracking.
+                    </p>
+                  </div>
+
+                  {/* Spec 2: Three Core Technologies */}
+                  <div className="flex flex-col gap-1.5 mt-2">
+                    <h5 className="text-[11px] font-sans font-bold text-amber-400 tracking-wider uppercase border-l-2 border-amber-500 pl-2">
+                      ✦ 核心技术特色 Tech Highlights
+                    </h5>
+                    <div className="grid grid-cols-1 gap-2 pl-2 text-[11px]">
+                      <div className="p-2 border border-zinc-900 bg-zinc-950/20 rounded">
+                        <strong className="text-amber-200">1. 空中指尖巡航 (Vision Gestures)</strong>
+                        <p className="text-zinc-400 text-[10px] mt-0.5">
+                          通过前端 MediaPipe 视觉网络提取实时肢体节点，作别物理按键，使用手掌与拳头（OK手型等）即可掌控星尘。
+                        </p>
+                      </div>
+                      <div className="p-2 border border-zinc-900 bg-zinc-950/20 rounded">
+                        <strong className="text-amber-200">2. 自研物理建模合成器 (Audio Engine)</strong>
+                        <p className="text-zinc-400 text-[10px] mt-0.5">
+                          依托 Web Audio API 构建专属的五声音阶合成弦鸣。可动态模拟古筝拨弦（Guzheng）和新笛（Flute）的激荡声谱。
+                        </p>
+                      </div>
+                      <div className="p-2 border border-zinc-900 bg-zinc-950/20 rounded">
+                        <strong className="text-amber-200">3. 水墨解算粒子流 (Fluid Particles)</strong>
+                        <p className="text-zinc-400 text-[10px] mt-0.5">
+                          高帧率 Canvas 二维流体解算，结合古画画幅（如《高山流水》），实现随重力或肢体波动的墨汁粒子发散与晕散。
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Spec 3: A2 Print Specs */}
+                  <div className="flex flex-col gap-1.5 mt-2">
+                    <h5 className="text-[11px] font-sans font-bold text-amber-400 tracking-wider uppercase border-l-2 border-amber-500 pl-2">
+                      ✦ 展板物理规格 Printing Specifications
+                    </h5>
+                    <ul className="text-xs text-zinc-400 font-mono pl-2 flex flex-col gap-1">
+                      <li>• <strong className="text-amber-100">外图幅 (Sheet Size):</strong> 标准 A2 纵向垂直展板 (420 × 594 mm)</li>
+                      <li>• <strong className="text-amber-100">打印分辨率 (Resolution):</strong> 精细设计，极高解析度 (Vector-grade Rendering)</li>
+                      <li>• <strong className="text-amber-100">色彩空间 (Color Mode):</strong> 纸墨韵雅金/经典玄黑调 (Charcoal Ink & Elegant Gold Duo-tone)</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Bottom Action Section */}
+                <div className="pt-4 border-t border-zinc-900 flex flex-col gap-2 mt-auto">
+                  <a 
+                    href={a2BoardImg} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-full text-center py-2.5 bg-[#553518] hover:bg-amber-800 active:bg-amber-950 text-white border border-amber-500/30 rounded-xl text-xs font-heading font-semibold tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    💾 导出展板高清原画 (Export High-Res JPG)
+                  </a>
+                  <p className="text-[9px] text-zinc-600 text-center uppercase tracking-widest font-mono">
+                    DESIGNED BY INK-WASH STAR DUST PROJECT TEAM
+                  </p>
+                </div>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Elegant Controls Info Trigger */}
+      <button 
+        onClick={() => setShowExhibitionBoard(!showExhibitionBoard)}
+        className="absolute top-6 right-[4.5rem] z-40 bg-zinc-900/80 hover:bg-amber-950/80 transition-colors border border-amber-500/30 text-amber-100 p-2.5 rounded-full shadow-lg shadow-black/60 pointer-events-auto flex items-center justify-center"
+        title="A2 介绍展板 Exhibition Poster"
+      >
+        <Layers className="w-5 h-5 text-amber-400" />
+      </button>
+
       <button 
         onClick={() => setShowInfo(!showInfo)}
         className="absolute top-6 right-6 z-40 bg-zinc-900/80 hover:bg-amber-950/80 transition-colors border border-amber-500/30 text-amber-100 p-2.5 rounded-full shadow-lg shadow-black/60 pointer-events-auto"
