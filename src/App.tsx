@@ -2048,7 +2048,7 @@ export default function App() {
             
             // Unified scroll interactive timeline for ALL poets:
             if (poetBody.lqSequence === "unfold") {
-              poetBody.lqUnfoldRatio = Math.min(1.0, (poetBody.lqUnfoldRatio || 0) + 0.02);
+              poetBody.lqUnfoldRatio = Math.min(1.0, (poetBody.lqUnfoldRatio || 0) + 0.06);
               
               // Keep targetScale constant at 1.0 during active scroll unfolding/unrolling!
               poetBody.targetScale = 1.0;
@@ -2058,7 +2058,7 @@ export default function App() {
                 poetBody.lqZoomRatio = 0.0;
               }
             } else if (poetBody.lqSequence === "zoom") {
-              poetBody.lqZoomRatio = Math.min(1.0, (poetBody.lqZoomRatio || 0) + 0.017);
+              poetBody.lqZoomRatio = Math.min(1.0, (poetBody.lqZoomRatio || 0) + 0.05);
               
               // Scale up dynamically to fill the screen
               const fullScreenScale = Math.max(cw / 460, ch / 280) * 1.03;
@@ -2087,7 +2087,7 @@ export default function App() {
 
               poetBody.scrollTextProgress = Math.min(
                 totalChars + 6, // extra count budget to fade in the Cinnabar Red seal stamp fully
-                (poetBody.scrollTextProgress || 0) + 0.09 // ~1 character every 11-12 frames (slower!)
+                (poetBody.scrollTextProgress || 0) + 0.22 // ~1 character every 4-5 frames (faster!)
               );
             } else if (poetBody.lqSequence === "fold_close") {
               // "再次握拳卷轴闭合，缩，消失"
