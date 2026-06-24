@@ -2048,7 +2048,7 @@ export default function App() {
             
             // Unified scroll interactive timeline for ALL poets:
             if (poetBody.lqSequence === "unfold") {
-              poetBody.lqUnfoldRatio = Math.min(1.0, (poetBody.lqUnfoldRatio || 0) + 0.06);
+              poetBody.lqUnfoldRatio = Math.min(1.0, (poetBody.lqUnfoldRatio || 0) + 0.035);
               
               // Keep targetScale constant at 1.0 during active scroll unfolding/unrolling!
               poetBody.targetScale = 1.0;
@@ -2058,7 +2058,7 @@ export default function App() {
                 poetBody.lqZoomRatio = 0.0;
               }
             } else if (poetBody.lqSequence === "zoom") {
-              poetBody.lqZoomRatio = Math.min(1.0, (poetBody.lqZoomRatio || 0) + 0.05);
+              poetBody.lqZoomRatio = Math.min(1.0, (poetBody.lqZoomRatio || 0) + 0.03);
               
               // Scale up dynamically to fill the screen
               const fullScreenScale = Math.max(cw / 460, ch / 280) * 1.03;
@@ -2087,20 +2087,20 @@ export default function App() {
 
               poetBody.scrollTextProgress = Math.min(
                 totalChars + 6, // extra count budget to fade in the Cinnabar Red seal stamp fully
-                (poetBody.scrollTextProgress || 0) + 0.22 // ~1 character every 4-5 frames (faster!)
+                (poetBody.scrollTextProgress || 0) + 0.14 // slightly slower text reveal
               );
             } else if (poetBody.lqSequence === "fold_close") {
               // "再次握拳卷轴闭合，缩，消失"
               // Instantly clip the huge duration buffer of lingerFrames to expedite state resolution
-              if (poetBody.lingerFrames > 12) {
-                poetBody.lingerFrames = 12;
+              if (poetBody.lingerFrames > 20) {
+                poetBody.lingerFrames = 20;
               }
-              // fold close: unrolls back to 0 (accelerated significantly)
-              poetBody.lqUnfoldRatio = Math.max(0.0, (poetBody.lqUnfoldRatio || 0) - 0.08);
-              // shrink: targetScale shrinks rapidly to 0
-              poetBody.targetScale = Math.max(0.0, poetBody.targetScale - 0.08);
+              // fold close: unrolls back to 0 (slightly slower than before)
+              poetBody.lqUnfoldRatio = Math.max(0.0, (poetBody.lqUnfoldRatio || 0) - 0.045);
+              // shrink: targetScale shrinks to 0
+              poetBody.targetScale = Math.max(0.0, poetBody.targetScale - 0.045);
               // fadeout: alpha dissolves to 0
-              poetBody.alpha = Math.max(0.0, poetBody.alpha - 0.08);
+              poetBody.alpha = Math.max(0.0, poetBody.alpha - 0.045);
               
               // Spume a few pretty ink starbursts as it vanishes!
               if (Math.random() < 0.4) {
