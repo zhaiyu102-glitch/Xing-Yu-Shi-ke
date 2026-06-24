@@ -275,7 +275,7 @@ const PoemCardView = React.memo(({
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ type: "spring", damping: 18, stiffness: 140 }}
+            transition={{ type: "spring", damping: 30, stiffness: 60 }}
             style={activeStarPos ? {
               position: "absolute",
               left: `${activeStarPos.x}px`,
@@ -302,7 +302,7 @@ const PoemCardView = React.memo(({
 
             <div className="flex gap-4 items-center w-full">
               {/* Calligraphy Avatar Circle */}
-              <div className="w-12 h-12 rounded-full border border-[#8c6b4f]/40 flex items-center justify-center bg-gradient-to-br from-[#fcfaf4] to-[#ebdcb9] shadow-inner shrink-0 select-none animate-[pulse_2.5s_infinite]">
+              <div className="w-12 h-12 rounded-full border border-[#8c6b4f]/40 flex items-center justify-center bg-gradient-to-br from-[#fcfaf4] to-[#ebdcb9] shadow-inner shrink-0 select-none animate-[pulse_5s_infinite]">
                 <span className="text-2xl font-calligraphy text-[#44281a]">
                   {activePoet.icon}
                 </span>
@@ -341,7 +341,7 @@ const PoemCardView = React.memo(({
             initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             exit={{ opacity: 0, scale: 0.9, rotateX: -20 }}
-            transition={{ type: "spring", damping: 20 }}
+            transition={{ type: "spring", damping: 35, stiffness: 50 }}
             className="relative w-[650px] max-w-[90vw] bg-gradient-to-br from-[#fdf6e2] to-[#ead9be] border-l-[18px] border-r-[18px] border-[#553518] shadow-[0_0_50px_rgba(0,0,0,0.95)] rounded-md py-8 px-10 text-amber-950"
           >
             {/* Elegant close button in the top-right corner */}
@@ -400,7 +400,7 @@ const PoemCardView = React.memo(({
                 <motion.div 
                   initial={{ scale: 0.98 }}
                   animate={{ scale: [0.98, 1.02, 0.98] }}
-                  transition={{ repeat: Infinity, duration: 1.8 }}
+                  transition={{ repeat: Infinity, duration: 3.6 }}
                   className="flex flex-col items-center gap-1"
                 >
                   <span className="text-md text-amber-900 font-heading font-medium tracking-wide">
@@ -493,7 +493,8 @@ const PoemDialogueBox = React.memo(({
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.8 } }}
+      exit={{ opacity: 0, scale: 0.95, transition: { duration: 1.6 } }}
+      transition={{ type: "spring", damping: 30, stiffness: 60 }}
       className={`absolute bottom-8 left-1/2 -translate-x-1/2 w-[85%] max-w-[850px] ${
         activePoet.name === "李清照" ? "bg-[#120f18]/10 px-6 py-3.5 gap-1.5" : "bg-[#120f18]/96 px-6 py-6 gap-3"
       } border-2 border-amber-500/60 rounded-md z-30 pointer-events-auto flex flex-col shadow-2xl shadow-black/80`}
@@ -502,7 +503,7 @@ const PoemDialogueBox = React.memo(({
         <span className="text-lg font-heading font-bold text-amber-200 tracking-wider">
           {activePoet.name} <span className="text-xs text-amber-400 font-sans">（{activePoet.dynasty}）</span>
         </span>
-        <span className="text-xs text-emerald-400 tracking-widest font-sans uppercase animate-pulse-slow">
+        <span className="text-xs text-emerald-400 tracking-widest font-sans uppercase animate-pulse-slow" style={{ animationDuration: "4s" }}>
           {dialogueLocked ? "• 诗圣显圣酝酿中 •" : "• 宿星神晤中 •"}
         </span>
       </div>
@@ -1477,7 +1478,7 @@ export default function App() {
 
       // 2. Render drifting, breathing nebulae
       nebulasRef.current.forEach(neb => {
-        neb.angle += neb.speed;
+        neb.angle += neb.speed * 0.5;
         const driftX = Math.cos(neb.angle) * 30;
         const driftY = Math.sin(neb.angle) * 30;
 
@@ -1501,12 +1502,12 @@ export default function App() {
           id: Math.random(),
           x: Math.random() * cw * 0.8,
           y: Math.random() * ch * 0.3,
-          vx: 8 + Math.random() * 8,
-          vy: 2 + Math.random() * 3,
+          vx: 4 + Math.random() * 4,
+          vy: 1 + Math.random() * 1.5,
           size: 1.5 + Math.random() * 2,
           char: "✦",
-          life: 40,
-          maxLife: 40,
+          life: 80,
+          maxLife: 80,
           color: "rgba(255, 255, 255, 0.75)",
           type: "starTrail"
         });
@@ -1550,7 +1551,7 @@ export default function App() {
       let warpSpeed = warpSpeedRef.current;
 
       if (isWarping) {
-        warpSpeedRef.current += 1.8;
+        warpSpeedRef.current += 0.75;
         if (warpSpeedRef.current > 32) {
           isWarpingRef.current = false;
           setGameState("TRAVEL");
@@ -1589,7 +1590,7 @@ export default function App() {
         if (star.isPoet) {
           // Dynamic scrolling when shifting state/space
           if (isWarping) {
-            star.x -= warpSpeedRef.current * 1.8;
+            star.x -= warpSpeedRef.current * 0.9;
             if (star.x < -80) star.x = cw + Math.random() * 200;
           } else if (currentGState === "TRAVEL") {
             const factor = meteorRef.current.vx * 0.015;
@@ -1615,7 +1616,7 @@ export default function App() {
           }
 
           if (star.pulse !== undefined) {
-            star.pulse += 0.045;
+            star.pulse += 0.0225;
             const sizeFactor = Math.sin(star.pulse);
             const name = star.poetData ? star.poetData.name : "星宿";
 
@@ -1645,7 +1646,7 @@ export default function App() {
         else {
           // Standard background stars
           // Twinkle alpha dynamically centered on asynchronous offset sine wave
-          star.alpha = 0.15 + Math.sin(Date.now() * 0.001 * star.speed * 8 + star.offset) * 0.55;
+          star.alpha = 0.15 + Math.sin(Date.now() * 0.0005 * star.speed * 8 + star.offset) * 0.55;
 
           if (currentGState === "TRAVEL" || isWarping) {
             const factor = isWarping ? warpSpeedRef.current : meteorRef.current.vx * 0.02;
@@ -1673,10 +1674,10 @@ export default function App() {
       // 5. Update and Draw interactive cursor (Meteor)
       if (currentGState === "TRAVEL" && !isWarping) {
         const meteor = meteorRef.current;
-        meteor.vx += (meteor.targetX - meteor.x) * 0.04;
-        meteor.vy += (meteor.targetY - meteor.y) * 0.04;
-        meteor.vx *= 0.82;
-        meteor.vy *= 0.82;
+        meteor.vx += (meteor.targetX - meteor.x) * 0.02;
+        meteor.vy += (meteor.targetY - meteor.y) * 0.02;
+        meteor.vx *= 0.85;
+        meteor.vy *= 0.85;
         meteor.x += meteor.vx;
         meteor.y += meteor.vy;
 
@@ -1746,11 +1747,11 @@ export default function App() {
               x: cw / 2 + (Math.random() - 0.5) * 180,
               y: -20,
               vx: (Math.random() - 0.5) * 1.2,
-              vy: 7 + Math.random() * 5,
+              vy: 3.5 + Math.random() * 2.5,
               size: 16 + Math.random() * 10,
               char: poet.curtains[Math.floor(Math.random() * poet.curtains.length)],
-              life: 140,
-              maxLife: 140,
+              life: 280,
+              maxLife: 280,
               color: "rgba(240, 245, 255, 0.85)",
               type: "waterfall"
             });
@@ -1762,13 +1763,13 @@ export default function App() {
             particlesRef.current.push({
               id: Math.random(),
               x: -30,
-              y: ch * 0.72 + Math.sin(Date.now() * 0.002) * 20,
-              vx: 1.4, // float rightwards
+              y: ch * 0.72 + Math.sin(Date.now() * 0.001) * 20,
+              vx: 0.7, // float rightwards
               vy: 0,
               size: 22 + Math.random() * 10,
               char: poet.curtains[Math.floor(Math.random() * poet.curtains.length)],
-              life: 220,
-              maxLife: 220,
+              life: 440,
+              maxLife: 440,
               color: "rgba(180, 160, 230, 0.68)",
               type: "river",
               angle: Math.random() * Math.PI
@@ -1820,12 +1821,12 @@ export default function App() {
                 id: Math.random(),
                 x: p.x,
                 y: hitHeight,
-                vx: (Math.random() - 0.5) * 6,
-                vy: -3 - Math.random() * 5,
+                vx: (Math.random() - 0.5) * 3,
+                vy: -1.5 - Math.random() * 2.5,
                 size: p.size * 0.6,
                 char: activePoet?.curtains[Math.floor(Math.random() * activePoet.curtains.length)] || "水",
-                life: 35,
-                maxLife: 35,
+                life: 70,
+                maxLife: 70,
                 color: "rgba(180, 215, 255, 0.9)",
                 type: "splash"
               });
@@ -1853,7 +1854,7 @@ export default function App() {
           // Bounce splashes of waterfall characters
           p.x += p.vx;
           p.y += p.vy;
-          p.vy += 0.25; // gravity pull
+          p.vy += 0.125; // gravity pull
 
           ctx.save();
           ctx.fillStyle = `rgba(200, 225, 255, ${p.life / p.maxLife})`;
@@ -1869,8 +1870,8 @@ export default function App() {
               // start pulling after life < 150 (since maxLife is 200, gives a sub-second delay)
               if (p.life < 150 || currentGState === "DIALOGUE") {
                 const targetSideW = p.side === "left" ? -150 : cw + 150;
-                p.x += (targetSideW - p.x) * 0.12; // smooth pull open
-                p.y += (ch * 0.5 - p.y) * 0.005; // converge slightly vertically
+                p.x += (targetSideW - p.x) * 0.06; // smooth pull open
+                p.y += (ch * 0.5 - p.y) * 0.0025; // converge slightly vertically
               }
             }
           }
@@ -1890,21 +1891,21 @@ export default function App() {
 
           if (p.angle !== undefined && p.vy !== undefined && p.vx !== undefined) {
             // Increments phase angle
-            p.angle += p.vx * 1.2; // vx stores angular velocity
+            p.angle += p.vx * 0.6; // vx stores angular velocity
             
             if (p.targetRadius !== undefined) {
               // Animate radius towards target
-              p.vy += (p.targetRadius - p.vy) * 0.12;
+              p.vy += (p.targetRadius - p.vy) * 0.06;
             }
 
             // Gently compress/breathe orbital radius values over time
             let currentRadius = p.vy;
             if (currentGState === "DIALOGUE") {
               // Expand spirally outward or condense elegantly
-              p.vy += Math.sin(Date.now() * 0.001) * 0.35;
+              p.vy += Math.sin(Date.now() * 0.0005) * 0.18;
             } else if (currentGState === "WARPING" || poetBodyRef.current.fadeOutStage) {
               // Expand orbits outwards rapidly during departures
-              p.vy += 22.0;
+              p.vy += 11.0;
             }
 
             p.x = cx + Math.cos(p.angle) * currentRadius;
@@ -1946,7 +1947,7 @@ export default function App() {
           p.y += p.vy;
 
           if (p.wingPhase !== undefined) {
-            p.wingPhase += 0.18;
+            p.wingPhase += 0.09;
             // Wing beat offset modifying vector height slightly
             p.y += Math.sin(p.wingPhase) * 1.5;
           }
@@ -2039,7 +2040,7 @@ export default function App() {
       // 7. Render dynamic Silhouette for active Poet ("updateAndDrawInkPoet")
       if ((currentGState === "CURTAIN" || currentGState === "DIALOGUE" || currentGState === "WARPING" || poetBodyRef.current.fadeOutStage) && activePoet) {
         const poetBody = poetBodyRef.current;
-        poetBody.animTime += 0.025;
+        poetBody.animTime += 0.0125;
 
         if (poetBody.fadeOutStage) {
           if (poetBody.lingerFrames !== undefined && poetBody.lingerFrames > 0) {
@@ -2047,7 +2048,7 @@ export default function App() {
             
             // Unified scroll interactive timeline for ALL poets:
             if (poetBody.lqSequence === "unfold") {
-              poetBody.lqUnfoldRatio = Math.min(1.0, (poetBody.lqUnfoldRatio || 0) + 0.04);
+              poetBody.lqUnfoldRatio = Math.min(1.0, (poetBody.lqUnfoldRatio || 0) + 0.02);
               
               // Keep targetScale constant at 1.0 during active scroll unfolding/unrolling!
               poetBody.targetScale = 1.0;
@@ -2057,7 +2058,7 @@ export default function App() {
                 poetBody.lqZoomRatio = 0.0;
               }
             } else if (poetBody.lqSequence === "zoom") {
-              poetBody.lqZoomRatio = Math.min(1.0, (poetBody.lqZoomRatio || 0) + 0.035);
+              poetBody.lqZoomRatio = Math.min(1.0, (poetBody.lqZoomRatio || 0) + 0.017);
               
               // Scale up dynamically to fill the screen
               const fullScreenScale = Math.max(cw / 460, ch / 280) * 1.03;
@@ -2086,7 +2087,7 @@ export default function App() {
 
               poetBody.scrollTextProgress = Math.min(
                 totalChars + 6, // extra count budget to fade in the Cinnabar Red seal stamp fully
-                (poetBody.scrollTextProgress || 0) + 0.18 // ~1 character every 5-6 frames
+                (poetBody.scrollTextProgress || 0) + 0.09 // ~1 character every 11-12 frames (slower!)
               );
             } else if (poetBody.lqSequence === "fold_close") {
               // "再次握拳卷轴闭合，缩，消失"
@@ -2095,11 +2096,11 @@ export default function App() {
                 poetBody.lingerFrames = 12;
               }
               // fold close: unrolls back to 0 (accelerated significantly)
-              poetBody.lqUnfoldRatio = Math.max(0.0, (poetBody.lqUnfoldRatio || 0) - 0.16);
+              poetBody.lqUnfoldRatio = Math.max(0.0, (poetBody.lqUnfoldRatio || 0) - 0.08);
               // shrink: targetScale shrinks rapidly to 0
-              poetBody.targetScale = Math.max(0.0, poetBody.targetScale - 0.16);
+              poetBody.targetScale = Math.max(0.0, poetBody.targetScale - 0.08);
               // fadeout: alpha dissolves to 0
-              poetBody.alpha = Math.max(0.0, poetBody.alpha - 0.18);
+              poetBody.alpha = Math.max(0.0, poetBody.alpha - 0.08);
               
               // Spume a few pretty ink starbursts as it vanishes!
               if (Math.random() < 0.4) {
@@ -2126,14 +2127,14 @@ export default function App() {
             // Unify poet dissolving animation (let silhouette dissolve instantly when scroll begins)
             if (poetBody.innerPoetScale === undefined) poetBody.innerPoetScale = 1.0;
             if (poetBody.innerPoetAlpha === undefined) poetBody.innerPoetAlpha = 1.0;
-            poetBody.innerPoetScale += (0.01 - poetBody.innerPoetScale) * 0.18;
-            poetBody.innerPoetAlpha += (0.0 - poetBody.innerPoetAlpha) * 0.18;
+            poetBody.innerPoetScale += (0.01 - poetBody.innerPoetScale) * 0.09;
+            poetBody.innerPoetAlpha += (0.0 - poetBody.innerPoetAlpha) * 0.09;
 
             // Center position and scale up smoothly
             poetBody.targetX = cw / 2;
-            poetBody.x += (poetBody.targetX - poetBody.x) * 0.15;
-            poetBody.y += ((ch / 2 + 35 * poetBody.scale) - poetBody.y) * 0.15;
-            const easeFactor = poetBody.lqSequence === "fold_close" ? 0.38 : 0.12;
+            poetBody.x += (poetBody.targetX - poetBody.x) * 0.075;
+            poetBody.y += ((ch / 2 + 35 * poetBody.scale) - poetBody.y) * 0.075;
+            const easeFactor = poetBody.lqSequence === "fold_close" ? 0.19 : 0.06;
             poetBody.scale += (poetBody.targetScale - poetBody.scale) * easeFactor;
           } else {
             poetBody.alpha = 0;
@@ -2903,7 +2904,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1.6 }}
             className="absolute inset-0 z-50 flex items-center justify-center bg-[#050409]/95 backdrop-blur-xl"
           >
             {/* Elegant Calligraphic Background Pattern Decoration */}
@@ -3006,7 +3007,7 @@ export default function App() {
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              transition={{ type: "spring", damping: 25 }}
+              transition={{ type: "spring", damping: 40, stiffness: 60 }}
               className="relative w-full max-w-5xl h-[90vh] md:h-[85vh] bg-[#0c0910] border-2 border-amber-500/30 rounded-2xl md:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col md:flex-row"
             >
               {/* Corner blueprints design accents */}
@@ -3174,11 +3175,12 @@ export default function App() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ type: "spring", damping: 30, stiffness: 60 }}
             className="absolute top-20 right-6 w-80 bg-[#120f18]/95 border-2 border-amber-500/40 rounded-lg p-5 z-40 flex flex-col gap-4 text-sm font-serif shadow-2xl shadow-black pointer-events-auto"
           >
             <div className="flex justify-between items-center border-b border-amber-500/20 pb-2">
               <span className="text-amber-100 font-bold flex items-center gap-2">
-                <Compass className="w-4 h-4 text-amber-400 animate-spin" />
+                <Compass className="w-4 h-4 text-amber-400 animate-spin" style={{ animationDuration: "6s" }} />
                 星河寻仙指引
               </span>
               <button 
@@ -3240,6 +3242,7 @@ export default function App() {
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -15 }}
+            transition={{ type: "spring", damping: 30, stiffness: 60 }}
             className="absolute top-1/4 left-1/2 -translate-x-1/2 pointer-events-none flex flex-col items-center gap-2.5 w-fit px-8 py-4 bg-[#120f18]/85 border border-amber-500/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_25px_rgba(245,158,11,0.2)] backdrop-blur-md text-center max-w-[95vw] z-20"
           >
             <div className="text-amber-500/60 tracking-[0.4em] font-sans text-[10px] sm:text-xs pb-1 border-b border-amber-500/10 w-full text-center font-semibold">
